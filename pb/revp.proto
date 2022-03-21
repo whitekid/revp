@@ -1,0 +1,66 @@
+// protoc will be automatically invoked when /server/server.go file saved with go:generate commands
+syntax = "proto3";
+
+option go_package = "github.com/whitekid/revp/pb";
+
+package revp;
+
+
+// Revp main services
+service Revp {
+    rpc Stream(stream Data) returns (stream Data){}
+
+}
+
+message Data {
+    optional string secret = 1;
+    bytes data = 2;
+    enum Error {
+        NoError = 0;
+        EOF = 1;
+    }
+    optional Error err = 3;
+}
+
+message DataReq{
+    int32 count = 1;
+    int64 elapseMilliseconds = 2;
+}
+
+message DataSummary {
+    string data = 1;
+}
+
+service StreamExample {
+    rpc ClientStream(stream StreamData) returns (StreamSummary){}
+    rpc ServerStream(StreamReq) returns (stream StreamData){}
+    rpc BidirectionalStream(stream StreamData) returns (stream StreamData){}
+}
+
+message StreamData {
+    string data = 1;
+}
+
+message StreamReq{
+    int32 Count = 1;
+    int64 ElapseMilliseconds = 2;
+}
+
+message StreamSummary {
+    string summary = 1;
+}
+
+
+// Examples
+// Say hello and handshape
+service Greeter {
+    rpc SayHello(HelloRequest) returns (HelloReply){}
+}
+
+message HelloRequest{
+    string name = 1;
+}
+
+message HelloReply {
+    string message = 1;
+}
