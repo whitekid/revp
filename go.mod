@@ -9,7 +9,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.10.1
 	github.com/stretchr/testify v1.7.1
-	github.com/whitekid/go-utils v0.0.0-20220323083358-e101a839805f
+	github.com/whitekid/go-utils v0.0.2
 	google.golang.org/grpc v1.45.0
 	google.golang.org/protobuf v1.28.0
 )

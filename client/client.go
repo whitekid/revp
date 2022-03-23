@@ -66,7 +66,7 @@ func New(localAddr string, serverAddr string) (*Client, error) {
 func (c *Client) Close() error { return c.conn.Close() }
 
 const (
-	ctxKeySecret = "ctxKeySecret"
+	ctxKeySecret = "ctxKeySecret:ab8918d9-fe61-4d7c-ab97-63a332a0fe28"
 )
 
 // Run handshake with server and run proxy in goroutine
