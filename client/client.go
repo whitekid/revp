@@ -14,6 +14,7 @@ import (
 	"github.com/whitekid/revp/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/encoding/gzip"
 	"google.golang.org/grpc/keepalive"
 )
 
@@ -54,6 +55,7 @@ func New(localAddr string, serverAddr string) (*Client, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "connect failed")
 	}
+	grpc.UseCompressor(gzip.Name)
 
 	client.conn = conn
 	client.revp = pb.NewRevpClient(conn)
@@ -66,7 +68,7 @@ func New(localAddr string, serverAddr string) (*Client, error) {
 func (c *Client) Close() error { return c.conn.Close() }
 
 const (
-	ctxKeySecret = "ctxKeySecret"
+	ctxKeySecret = "ctxKeySecret:ab8918d9-fe61-4d7c-ab97-63a332a0fe28"
 )
 
 // Run handshake with server and run proxy in goroutine
@@ -206,7 +208,7 @@ func newStreamReader(stream pb.Revp_StreamClient) io.Reader {
 func (r *streamReader) Read(p []byte) (n int, err error) {
 	data, err := r.stream.Recv()
 	if err != nil {
-		return 0, errors.Wrapf(err, "stream read failed with %t: %s", err, err)
+		return 0, errors.Wrapf(err, "stream read failed with %+v", err)
 	}
 
 	copy(p, data.Data)
