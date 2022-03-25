@@ -16,6 +16,7 @@ import (
 	"net/textproto"
 	"time"
 
+	"github.com/flosch/pongo2/v5"
 	"github.com/pkg/errors"
 	"github.com/whitekid/go-utils/log"
 	"github.com/whitekid/go-utils/service"
@@ -119,7 +120,11 @@ func (s *serverImpl) Stream(stream pb.Revp_StreamServer) error {
 
 	port := ln.Addr().(*net.TCPAddr).Port
 
-	serverAddr := fmt.Sprintf("%s:%d/", config.Server.RootURL(), port)
+	serverAddr, err := config.Server.RootURL().Execute(pongo2.Context{"port": port})
+	if err != nil {
+		return status.Error(codes.Internal, err.Error())
+	}
+
 	log.Debugf("send remote address: %s", s.serverAddr)
 	if err := stream.Send(&pb.Data{Data: []byte(serverAddr)}); err != nil {
 		log.Fatal(err)

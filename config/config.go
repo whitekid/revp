@@ -1,14 +1,16 @@
 package config
 
 import (
-	"log"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
+	"github.com/flosch/pongo2/v5"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"github.com/whitekid/go-utils/flags"
+	"github.com/whitekid/go-utils/log"
 )
 
 var (
@@ -121,8 +123,19 @@ func (server *ServerConfig) Init(use string, flagset *pflag.FlagSet) {
 	flags.InitFlagSet(server.viper, serverConfigs, use, flagset)
 }
 
-func (server *ServerConfig) RootURL() string {
-	return server.viper.GetString(keyRootURL)
+var tpl *pongo2.Template
+var onceRootURL sync.Once
+
+func (server *ServerConfig) RootURL() *pongo2.Template {
+	onceRootURL.Do(func() {
+		t, err := pongo2.FromString(server.viper.GetString(keyRootURL))
+		if err != nil {
+			log.Fatal(err)
+		}
+		tpl = t
+	})
+
+	return tpl
 }
 
 func (server *ServerConfig) BindAddr() string {
