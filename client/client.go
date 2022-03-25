@@ -14,6 +14,7 @@ import (
 	"github.com/whitekid/revp/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/encoding/gzip"
 	"google.golang.org/grpc/keepalive"
 )
 
@@ -54,6 +55,7 @@ func New(localAddr string, serverAddr string) (*Client, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "connect failed")
 	}
+	grpc.UseCompressor(gzip.Name)
 
 	client.conn = conn
 	client.revp = pb.NewRevpClient(conn)
