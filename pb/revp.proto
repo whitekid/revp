@@ -11,7 +11,6 @@ package revp;
 // Revp main services
 service Revp {
     rpc Stream(stream Data) returns (stream Data){}
-
 }
 
 message Data {

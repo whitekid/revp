@@ -206,7 +206,7 @@ func newStreamReader(stream pb.Revp_StreamClient) io.Reader {
 func (r *streamReader) Read(p []byte) (n int, err error) {
 	data, err := r.stream.Recv()
 	if err != nil {
-		return 0, errors.Wrapf(err, "stream read failed with %t: %s", err, err)
+		return 0, errors.Wrapf(err, "stream read failed with %+v", err)
 	}
 
 	copy(p, data.Data)
