@@ -125,7 +125,7 @@ func (s *serverImpl) Stream(stream pb.Revp_StreamServer) error {
 		return status.Error(codes.Internal, err.Error())
 	}
 
-	log.Debugf("send remote address: %s", s.serverAddr)
+	log.Debugf("send remote address as: %s", serverAddr)
 	if err := stream.Send(&pb.Data{Data: []byte(serverAddr)}); err != nil {
 		log.Fatal(err)
 	}
