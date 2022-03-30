@@ -16,9 +16,9 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
-	"github.com/whitekid/go-utils"
-	"github.com/whitekid/go-utils/log"
-	"github.com/whitekid/go-utils/request"
+	"github.com/whitekid/goxp"
+	"github.com/whitekid/goxp/log"
+	"github.com/whitekid/goxp/request"
 	"github.com/whitekid/revp/config"
 	"github.com/whitekid/revp/server"
 	"google.golang.org/grpc/codes"
@@ -43,8 +43,8 @@ func newTestServer(ctx context.Context, t *testing.T, routes ...func(*echo.Echo)
 	t.Parallel()
 
 	// start test server
-	remoteServerPort := utils.AvailablePort()
-	localPort := utils.AvailablePort()
+	remoteServerPort := goxp.AvailablePort()
+	localPort := goxp.AvailablePort()
 
 	remoteServerAddr := fmt.Sprintf("127.0.0.1:%d", remoteServerPort)
 	localServerAddr := fmt.Sprintf("127.0.0.1:%d", localPort)
@@ -115,13 +115,14 @@ func testPost(ctx context.Context, t *testing.T, remoteAddr string) {
 	require.NoError(t, err)
 	require.True(t, resp.Success())
 	response := map[string]int{}
+	defer resp.Body.Close()
 	require.NoError(t, resp.JSON(&response))
 	require.Equal(t, x+y, response["result"])
 }
 
 func testGet(ctx context.Context, t *testing.T, remoteAddr string) {
 	resp, err := request.Get(remoteAddr+"echo").
-		Param("message", t.Name()).
+		Query("message", t.Name()).
 		Do(ctx)
 	require.NoError(t, err)
 	require.True(t, resp.Success())
@@ -141,7 +142,7 @@ func TestRun(t *testing.T) {
 
 	t.Run("GET", func(t *testing.T) {
 		for i := 0; i < 10; i++ {
-			t.Run(utils.RandomString(10), func(t *testing.T) {
+			t.Run(goxp.RandomString(10), func(t *testing.T) {
 				testGet(ctx, t, remoteAddr)
 			})
 		}

@@ -9,7 +9,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
-	"github.com/whitekid/go-utils/log"
+	"github.com/whitekid/goxp/log"
 	"github.com/whitekid/revp/pb"
 )
 
@@ -53,7 +53,7 @@ func TestClientSideStream(t *testing.T) {
 	require.NoError(t, err)
 
 	for i := 0; i < 4; i++ {
-		err := stream.Send(&pb.StreamData{Data: fmt.Sprintf("data %d", i)})
+		err := stream.Send(&pb.StreamExampleData{Data: fmt.Sprintf("data %d", i)})
 		require.NoError(t, err)
 	}
 	summary, err := stream.CloseAndRecv()
@@ -96,7 +96,7 @@ func TestBidirectionalStream(t *testing.T) {
 
 	// send messages
 	for i := 0; i < 4; i++ {
-		err := stream.Send(&pb.StreamData{Data: fmt.Sprintf("%d", i)})
+		err := stream.Send(&pb.StreamExampleData{Data: fmt.Sprintf("%d", i)})
 		require.NoError(t, err)
 	}
 	require.NoError(t, stream.CloseSend())

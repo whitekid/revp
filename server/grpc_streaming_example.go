@@ -5,7 +5,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/whitekid/go-utils/log"
+	"github.com/whitekid/goxp/log"
 	"github.com/whitekid/revp/pb"
 )
 
@@ -19,7 +19,7 @@ func (s *streamExampleServerImpl) ClientStream(stream pb.StreamExample_ClientStr
 	for {
 		data, err := stream.Recv()
 		if err == io.EOF {
-			return stream.SendAndClose(&pb.StreamSummary{
+			return stream.SendAndClose(&pb.StreamExampleSummary{
 				Summary: strings.Join(summary, ","),
 			})
 		}
@@ -33,7 +33,7 @@ func (s *streamExampleServerImpl) ClientStream(stream pb.StreamExample_ClientStr
 
 func (s *streamExampleServerImpl) ServerStream(in *pb.StreamReq, stream pb.StreamExample_ServerStreamServer) error {
 	for i := 0; i < int(in.Count); i++ {
-		stream.Send(&pb.StreamData{
+		stream.Send(&pb.StreamExampleData{
 			Data: fmt.Sprintf("data %d", i),
 		})
 	}
@@ -54,7 +54,7 @@ func (s *streamExampleServerImpl) BidirectionalStream(stream pb.StreamExample_Bi
 		}
 
 		log.Debugf("server got data: %s", in.Data)
-		if err := stream.Send(&pb.StreamData{
+		if err := stream.Send(&pb.StreamExampleData{
 			Data: fmt.Sprintf("data %s", in.Data),
 		}); err != nil {
 			return err

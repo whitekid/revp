@@ -35,7 +35,7 @@ var rootCmd = &cobra.Command{
 
 		select {
 		case <-ctx.Done(): // comand closed
-		case <-ctxClosed.Done(): //proxy closed
+		case <-ctxClosed.Done(): // proxy closed
 		}
 
 		return nil
