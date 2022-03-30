@@ -43,8 +43,8 @@ func (c *revpClient) Stream(ctx context.Context, opts ...grpc.CallOption) (Revp_
 }
 
 type Revp_StreamClient interface {
-	Send(*Data) error
-	Recv() (*Data, error)
+	Send(*StreamData) error
+	Recv() (*StreamData, error)
 	grpc.ClientStream
 }
 
@@ -52,12 +52,12 @@ type revpStreamClient struct {
 	grpc.ClientStream
 }
 
-func (x *revpStreamClient) Send(m *Data) error {
+func (x *revpStreamClient) Send(m *StreamData) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *revpStreamClient) Recv() (*Data, error) {
-	m := new(Data)
+func (x *revpStreamClient) Recv() (*StreamData, error) {
+	m := new(StreamData)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -97,8 +97,8 @@ func _Revp_Stream_Handler(srv interface{}, stream grpc.ServerStream) error {
 }
 
 type Revp_StreamServer interface {
-	Send(*Data) error
-	Recv() (*Data, error)
+	Send(*StreamData) error
+	Recv() (*StreamData, error)
 	grpc.ServerStream
 }
 
@@ -106,12 +106,12 @@ type revpStreamServer struct {
 	grpc.ServerStream
 }
 
-func (x *revpStreamServer) Send(m *Data) error {
+func (x *revpStreamServer) Send(m *StreamData) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *revpStreamServer) Recv() (*Data, error) {
-	m := new(Data)
+func (x *revpStreamServer) Recv() (*StreamData, error) {
+	m := new(StreamData)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -163,8 +163,8 @@ func (c *streamExampleClient) ClientStream(ctx context.Context, opts ...grpc.Cal
 }
 
 type StreamExample_ClientStreamClient interface {
-	Send(*StreamData) error
-	CloseAndRecv() (*StreamSummary, error)
+	Send(*StreamExampleData) error
+	CloseAndRecv() (*StreamExampleSummary, error)
 	grpc.ClientStream
 }
 
@@ -172,15 +172,15 @@ type streamExampleClientStreamClient struct {
 	grpc.ClientStream
 }
 
-func (x *streamExampleClientStreamClient) Send(m *StreamData) error {
+func (x *streamExampleClientStreamClient) Send(m *StreamExampleData) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *streamExampleClientStreamClient) CloseAndRecv() (*StreamSummary, error) {
+func (x *streamExampleClientStreamClient) CloseAndRecv() (*StreamExampleSummary, error) {
 	if err := x.ClientStream.CloseSend(); err != nil {
 		return nil, err
 	}
-	m := new(StreamSummary)
+	m := new(StreamExampleSummary)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -203,7 +203,7 @@ func (c *streamExampleClient) ServerStream(ctx context.Context, in *StreamReq, o
 }
 
 type StreamExample_ServerStreamClient interface {
-	Recv() (*StreamData, error)
+	Recv() (*StreamExampleData, error)
 	grpc.ClientStream
 }
 
@@ -211,8 +211,8 @@ type streamExampleServerStreamClient struct {
 	grpc.ClientStream
 }
 
-func (x *streamExampleServerStreamClient) Recv() (*StreamData, error) {
-	m := new(StreamData)
+func (x *streamExampleServerStreamClient) Recv() (*StreamExampleData, error) {
+	m := new(StreamExampleData)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -229,8 +229,8 @@ func (c *streamExampleClient) BidirectionalStream(ctx context.Context, opts ...g
 }
 
 type StreamExample_BidirectionalStreamClient interface {
-	Send(*StreamData) error
-	Recv() (*StreamData, error)
+	Send(*StreamExampleData) error
+	Recv() (*StreamExampleData, error)
 	grpc.ClientStream
 }
 
@@ -238,12 +238,12 @@ type streamExampleBidirectionalStreamClient struct {
 	grpc.ClientStream
 }
 
-func (x *streamExampleBidirectionalStreamClient) Send(m *StreamData) error {
+func (x *streamExampleBidirectionalStreamClient) Send(m *StreamExampleData) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *streamExampleBidirectionalStreamClient) Recv() (*StreamData, error) {
-	m := new(StreamData)
+func (x *streamExampleBidirectionalStreamClient) Recv() (*StreamExampleData, error) {
+	m := new(StreamExampleData)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -291,8 +291,8 @@ func _StreamExample_ClientStream_Handler(srv interface{}, stream grpc.ServerStre
 }
 
 type StreamExample_ClientStreamServer interface {
-	SendAndClose(*StreamSummary) error
-	Recv() (*StreamData, error)
+	SendAndClose(*StreamExampleSummary) error
+	Recv() (*StreamExampleData, error)
 	grpc.ServerStream
 }
 
@@ -300,12 +300,12 @@ type streamExampleClientStreamServer struct {
 	grpc.ServerStream
 }
 
-func (x *streamExampleClientStreamServer) SendAndClose(m *StreamSummary) error {
+func (x *streamExampleClientStreamServer) SendAndClose(m *StreamExampleSummary) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *streamExampleClientStreamServer) Recv() (*StreamData, error) {
-	m := new(StreamData)
+func (x *streamExampleClientStreamServer) Recv() (*StreamExampleData, error) {
+	m := new(StreamExampleData)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -321,7 +321,7 @@ func _StreamExample_ServerStream_Handler(srv interface{}, stream grpc.ServerStre
 }
 
 type StreamExample_ServerStreamServer interface {
-	Send(*StreamData) error
+	Send(*StreamExampleData) error
 	grpc.ServerStream
 }
 
@@ -329,7 +329,7 @@ type streamExampleServerStreamServer struct {
 	grpc.ServerStream
 }
 
-func (x *streamExampleServerStreamServer) Send(m *StreamData) error {
+func (x *streamExampleServerStreamServer) Send(m *StreamExampleData) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -338,8 +338,8 @@ func _StreamExample_BidirectionalStream_Handler(srv interface{}, stream grpc.Ser
 }
 
 type StreamExample_BidirectionalStreamServer interface {
-	Send(*StreamData) error
-	Recv() (*StreamData, error)
+	Send(*StreamExampleData) error
+	Recv() (*StreamExampleData, error)
 	grpc.ServerStream
 }
 
@@ -347,12 +347,12 @@ type streamExampleBidirectionalStreamServer struct {
 	grpc.ServerStream
 }
 
-func (x *streamExampleBidirectionalStreamServer) Send(m *StreamData) error {
+func (x *streamExampleBidirectionalStreamServer) Send(m *StreamExampleData) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *streamExampleBidirectionalStreamServer) Recv() (*StreamData, error) {
-	m := new(StreamData)
+func (x *streamExampleBidirectionalStreamServer) Recv() (*StreamExampleData, error) {
+	m := new(StreamExampleData)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}

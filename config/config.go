@@ -9,8 +9,8 @@ import (
 	"github.com/flosch/pongo2/v5"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
-	"github.com/whitekid/go-utils/flags"
-	"github.com/whitekid/go-utils/log"
+	"github.com/whitekid/goxp/flags"
+	"github.com/whitekid/goxp/log"
 )
 
 var (

@@ -1,9 +1,5 @@
 package server
 
-//go:generate protoc -I ../pb --go_out=../pb --go_opt=paths=source_relative --go-grpc_out=../pb --go-grpc_opt=paths=source_relative ../pb/revp.proto
-// references...
-// https://github.com/mmatczuk/go-http-tunnel
-
 import (
 	"bufio"
 	"context"
@@ -18,8 +14,8 @@ import (
 
 	"github.com/flosch/pongo2/v5"
 	"github.com/pkg/errors"
-	"github.com/whitekid/go-utils/log"
-	"github.com/whitekid/go-utils/service"
+	"github.com/whitekid/goxp/log"
+	"github.com/whitekid/goxp/service"
 	"github.com/whitekid/revp/config"
 	"github.com/whitekid/revp/pb"
 	"google.golang.org/grpc"
@@ -45,7 +41,7 @@ type serverImpl struct {
 	pb.UnimplementedGreeterServer
 }
 
-func (s *serverImpl) Serve(ctx context.Context, args ...string) error {
+func (s *serverImpl) Serve(ctx context.Context) error {
 	ln, err := net.Listen("tcp", s.serverAddr)
 	if err != nil {
 		return errors.Wrapf(err, "listen failed")
@@ -127,7 +123,7 @@ func (s *serverImpl) Stream(stream pb.Revp_StreamServer) error {
 	}
 
 	log.Debugf("send remote address as: %s", serverAddr)
-	if err := stream.Send(&pb.Data{Data: []byte(serverAddr)}); err != nil {
+	if err := stream.Send(&pb.StreamData{Data: []byte(serverAddr)}); err != nil {
 		log.Fatal(err)
 	}
 
@@ -236,9 +232,9 @@ func (r *streamReader) Read(p []byte) (n int, err error) {
 		return 0, errors.Wrap(err, "recv failed")
 	}
 
-	if data.Data == nil && data.Err != nil && (*data.Err) != pb.Data_NoError {
+	if data.Data == nil && data.Err != nil && (*data.Err) != pb.StreamData_NoError {
 		switch *data.Err {
-		case pb.Data_EOF:
+		case pb.StreamData_EOF:
 			return 0, io.EOF
 		default:
 			log.Fatal("unhandled error: %s", data.Err.String())
@@ -260,7 +256,7 @@ func newStreamWriter(stream pb.Revp_StreamServer) io.Writer {
 }
 
 func (r *streamWriter) Write(p []byte) (n int, err error) {
-	if err := r.stream.Send(&pb.Data{
+	if err := r.stream.Send(&pb.StreamData{
 		Data: p,
 	}); err != nil {
 		return 0, errors.Wrap(err, "send failed")

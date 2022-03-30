@@ -13,3 +13,10 @@ open new terminal and start `revp` client with demo secret
     forwarding https://revp-57750.woosum.net/ -> 127.0.0.1:8000
 
 open the forwarded URL.
+
+## alternatives
+
+- [ngrok](https://ngrok.com/)
+- [mitmproxy](https://mitmproxy.org/)
+- https://github.com/mmatczuk/go-http-tunnel
+- [Caddyserver](https://caddyserver.com/)

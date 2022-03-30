@@ -9,7 +9,7 @@ import (
 	"net/textproto"
 
 	"github.com/pkg/errors"
-	"github.com/whitekid/go-utils/log"
+	"github.com/whitekid/goxp/log"
 	"github.com/whitekid/revp/config"
 	"github.com/whitekid/revp/pb"
 	"google.golang.org/grpc"
@@ -91,7 +91,7 @@ func (c *Client) Run(ctx context.Context, stopped context.CancelFunc) (string, e
 	}
 
 	log.Debug("start handshaking...")
-	if err := stream.Send(&pb.Data{Secret: &secret}); err != nil {
+	if err := stream.Send(&pb.StreamData{Secret: &secret}); err != nil {
 		log.Fatal(err)
 	}
 	log.Debug("start handshaking... done")
@@ -131,8 +131,8 @@ func (c *Client) Run(ctx context.Context, stopped context.CancelFunc) (string, e
 			localConn, err := net.Dial("tcp", c.localAddr)
 			if err != nil {
 				log.Errorf("fail to connect local server: %s", err)
-				err := pb.Data_EOF
-				stream.Send(&pb.Data{Err: &err}) // bad gateway
+				err := pb.StreamData_EOF
+				stream.Send(&pb.StreamData{Err: &err}) // bad gateway
 
 				continue
 			}
@@ -152,8 +152,8 @@ func (c *Client) Run(ctx context.Context, stopped context.CancelFunc) (string, e
 			if req.Body != nil {
 				if _, err := io.CopyBuffer(localConn, req.Body, make([]byte, 4096)); err != nil {
 					log.Errorf("%+v", err)
-					pbErr := pb.Data_EOF
-					stream.Send(&pb.Data{Err: &pbErr})
+					pbErr := pb.StreamData_EOF
+					stream.Send(&pb.StreamData{Err: &pbErr})
 					continue
 				}
 				defer req.Body.Close()
@@ -164,8 +164,8 @@ func (c *Client) Run(ctx context.Context, stopped context.CancelFunc) (string, e
 			resp, err := http.ReadResponse(bufio.NewReader(localConn), req)
 			if err != nil {
 				log.Errorf("%+v", err)
-				pbErr := pb.Data_EOF
-				stream.Send(&pb.Data{Err: &pbErr})
+				pbErr := pb.StreamData_EOF
+				stream.Send(&pb.StreamData{Err: &pbErr})
 				continue
 			}
 			defer resp.Body.Close()
@@ -181,8 +181,8 @@ func (c *Client) Run(ctx context.Context, stopped context.CancelFunc) (string, e
 
 			if _, err := io.CopyBuffer(remoteSW, resp.Body, make([]byte, 4096)); err != nil {
 				log.Errorf("%+v", err)
-				pbErr := pb.Data_EOF
-				stream.Send(&pb.Data{Err: &pbErr})
+				pbErr := pb.StreamData_EOF
+				stream.Send(&pb.StreamData{Err: &pbErr})
 
 				continue
 			}
@@ -226,7 +226,7 @@ func newStreamWriter(stream pb.Revp_StreamClient) io.Writer {
 }
 
 func (r *streamWriter) Write(p []byte) (n int, err error) {
-	if err := r.stream.Send(&pb.Data{Data: p}); err != nil {
+	if err := r.stream.Send(&pb.StreamData{Data: p}); err != nil {
 		return 0, errors.Wrap(err, "send failed")
 	}
 

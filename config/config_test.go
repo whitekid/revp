@@ -26,7 +26,6 @@ func TestEnvConfig(t *testing.T) {
 		args args
 	}{
 		{keySecret, args{Secret}},
-		{keyRootURL, args{Server.RootURL}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
