@@ -2,7 +2,7 @@ name: Go
 
 on:
   push:
-    branches: [master, devel]
+    branches: [master]
   pull_request:
     branches: [master]
 
@@ -22,3 +22,6 @@ jobs:
 
       - name: Test
         run: make test
+        env:
+          RP_SECRET: "secret"
+          RP_ROOT_URL: "http://127.0.0.1:{{ port }}/"
