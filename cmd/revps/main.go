@@ -4,8 +4,9 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/whitekid/revp/config"
-	"github.com/whitekid/revp/server"
+
+	"revp/config"
+	"revp/server"
 )
 
 var rootCmd = &cobra.Command{

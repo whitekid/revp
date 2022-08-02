@@ -1,5 +1,8 @@
 {
   "go.testFlags": ["-count=1"],
+  "gopls": {
+    "formatting.local": "revp"
+  },
   "protoc": {
     "compile_on_save": true,
     "options": [

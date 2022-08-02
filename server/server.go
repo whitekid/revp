@@ -16,14 +16,15 @@ import (
 	"github.com/pkg/errors"
 	"github.com/whitekid/goxp/log"
 	"github.com/whitekid/goxp/service"
-	"github.com/whitekid/revp/config"
-	"github.com/whitekid/revp/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	_ "google.golang.org/grpc/encoding/gzip"
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/peer"
 	"google.golang.org/grpc/status"
+
+	"revp/config"
+	"revp/pb"
 )
 
 func New(serverAddr string) service.Interface {

@@ -6,7 +6,8 @@ import (
 	"strings"
 
 	"github.com/whitekid/goxp/log"
-	"github.com/whitekid/revp/pb"
+
+	"revp/pb"
 )
 
 type streamExampleServerImpl struct {
