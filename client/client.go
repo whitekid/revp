@@ -9,7 +9,7 @@ import (
 	"net/textproto"
 
 	"revp/config"
-	"revp/pb"
+	pb "revp/pb/v1alpha1"
 
 	"github.com/pkg/errors"
 	"github.com/whitekid/goxp/log"
@@ -21,8 +21,8 @@ import (
 
 // Client reverse tunnel client
 //
-//  (localAddr) ----<grpc>---- (serverAddr) --------<https>---- (remoteAddr)
-//  http://127.0.0.1:8080      grpc//recp.woosum.net:49999      https://recp.woosum.net:599999
+//	(localAddr) ----<grpc>---- (serverAddr) --------<https>---- (remoteAddr)
+//	http://127.0.0.1:8080      grpc//recp.woosum.net:49999      https://recp.woosum.net:599999
 type Client struct {
 	serverAddr string
 	localAddr  string

@@ -44,8 +44,10 @@ func newTestServer(ctx context.Context, t *testing.T, routes ...func(*echo.Echo)
 	t.Parallel()
 
 	// start test server
-	remoteServerPort := goxp.AvailablePort()
-	localPort := goxp.AvailablePort()
+	remoteServerPort, err := goxp.AvailablePort()
+	require.NoError(t, err)
+	localPort, err := goxp.AvailablePort()
+	require.NoError(t, err)
 
 	remoteServerAddr := fmt.Sprintf("127.0.0.1:%d", remoteServerPort)
 	localServerAddr := fmt.Sprintf("127.0.0.1:%d", localPort)

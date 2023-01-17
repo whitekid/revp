@@ -3,14 +3,12 @@
   "gopls": {
     "formatting.local": "revp"
   },
-  "protoc": {
-    "compile_on_save": true,
-    "options": [
-      "-I=${workspaceRoot}/pb",
-      "--go_out=${workspaceRoot}/pb",
-      "--go_opt=paths=source_relative",
-      "--go-grpc_out=${workspaceRoot}/pb",
-      "--go-grpc_opt=paths=source_relative"
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "cmd": "make pb/revp_grpc.pb.go",
+        "match": "revp\\.proto$"
+      }
     ]
   }
 }

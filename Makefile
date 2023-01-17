@@ -1,7 +1,7 @@
 TARGET=bin/revp bin/revps
 SRC=$(shell find . -type f -name '*.go' -not -path "./vendor/*" -not -path "*_test.go")
 PROTO_DEFS := $(shell find . -not -path "./vendor/*" -type f -name '*.proto' -print)
-PROTO_GOS := $(patsubst %.proto,%.pb.go,$(PROTO_DEFS))
+PROTO_GOS := pb/v1alpha1/revp_grpc.pb.go
 
 GO?=go
 BUILD_FLAGS?=-v
@@ -31,6 +31,12 @@ dep:
 tidy:
 	${GO} mod tidy -v
 
-%.pb.go: $(patsubst %.pb.go,%.proto,$@)
-	protoc -I=./$(@D) --go_out=./$(@D) --go_opt=paths=source_relative \
-		--go-grpc_out=./$(@D) --go-grpc_opt=paths=source_relative ./$(patsubst %.pb.go,%.proto,$@)
+pb/v1alpha1/revp_grpc.pb.go: pb/revp.proto
+	protoc -I=./pb \
+      --go_out=./pb/v1alpha1 \
+      --go_opt=paths=source_relative \
+      --go-grpc_out=./pb/v1alpha1 \
+      --go-grpc_opt=paths=source_relative \
+	  pb/revp.proto
+
+	cd ./pb/v1alpha1 && mockery --name RevpClient

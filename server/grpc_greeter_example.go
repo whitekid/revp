@@ -3,7 +3,7 @@ package server
 import (
 	"context"
 
-	"revp/pb"
+	pb "revp/pb/v1alpha1"
 )
 
 type greeterServerImpl struct {
