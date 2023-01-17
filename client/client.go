@@ -8,10 +8,11 @@ import (
 	"net/http"
 	"net/textproto"
 
+	"revp/config"
+	"revp/pb"
+
 	"github.com/pkg/errors"
 	"github.com/whitekid/goxp/log"
-	"github.com/whitekid/revp/config"
-	"github.com/whitekid/revp/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/encoding/gzip"

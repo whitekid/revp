@@ -6,8 +6,9 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/whitekid/revp/client"
-	"github.com/whitekid/revp/config"
+
+	"revp/client"
+	"revp/config"
 )
 
 var rootCmd = &cobra.Command{

@@ -19,10 +19,11 @@ import (
 	"github.com/whitekid/goxp"
 	"github.com/whitekid/goxp/log"
 	"github.com/whitekid/goxp/request"
-	"github.com/whitekid/revp/config"
-	"github.com/whitekid/revp/server"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"revp/config"
+	"revp/server"
 )
 
 func TestMain(m *testing.M) {

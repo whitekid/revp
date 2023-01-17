@@ -8,7 +8,8 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
-	"github.com/whitekid/revp/config"
+
+	"revp/config"
 )
 
 func TestMain(m *testing.M) {

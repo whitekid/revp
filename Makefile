@@ -1,5 +1,4 @@
 TARGET=bin/revp bin/revps
-GO_PKG=github.com/whitekid/revp
 SRC=$(shell find . -type f -name '*.go' -not -path "./vendor/*" -not -path "*_test.go")
 PROTO_DEFS := $(shell find . -not -path "./vendor/*" -type f -name '*.proto' -print)
 PROTO_GOS := $(patsubst %.proto,%.pb.go,$(PROTO_DEFS))
@@ -25,12 +24,12 @@ test:
 # update modules & tidy
 dep:
 	rm -f go.mod go.sum
-	${GO} mod init ${GO_PKG}
+	${GO} mod init revp
 
 	@$(MAKE) tidy
 
 tidy:
-	${GO} mod tidy
+	${GO} mod tidy -v
 
 %.pb.go: $(patsubst %.pb.go,%.proto,$@)
 	protoc -I=./$(@D) --go_out=./$(@D) --go_opt=paths=source_relative \

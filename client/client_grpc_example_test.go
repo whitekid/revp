@@ -10,7 +10,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
 	"github.com/whitekid/goxp/log"
-	"github.com/whitekid/revp/pb"
+
+	"revp/pb"
 )
 
 func TestServerSideStream(t *testing.T) {
