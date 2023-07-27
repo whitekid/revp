@@ -6,7 +6,7 @@ import "google/protobuf/empty.proto";
 
 option go_package = "github.com/whitekid/revp/pb";
 
-package revp;
+package api.v1alpha1.revp;
 
 // Revp main services
 service Revp {
@@ -17,7 +17,7 @@ message StreamData {
   optional string secret = 1;
   bytes data = 2;
   enum Error {
-    NoError = 0;
+    NO_ERROR = 0;
     EOF = 1;
   }
   optional Error err = 3;
@@ -34,8 +34,8 @@ service StreamExample {
 message StreamExampleData { string data = 1; }
 
 message StreamReq {
-  int32 Count = 1;
-  int64 ElapseMilliseconds = 2;
+  int32 count = 1;
+  int64 elapse_milliseconds = 2;
 }
 
 message StreamExampleSummary { string summary = 1; }

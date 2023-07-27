@@ -24,7 +24,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"revp/config"
-	"revp/pb"
+	pb "revp/pb/v1alpha1"
 )
 
 func New(serverAddr string) service.Interface {
@@ -233,7 +233,7 @@ func (r *streamReader) Read(p []byte) (n int, err error) {
 		return 0, errors.Wrap(err, "recv failed")
 	}
 
-	if data.Data == nil && data.Err != nil && (*data.Err) != pb.StreamData_NoError {
+	if data.Data == nil && data.Err != nil && *data.Err != pb.StreamData_NO_ERROR {
 		switch *data.Err {
 		case pb.StreamData_EOF:
 			return 0, io.EOF

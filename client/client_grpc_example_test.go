@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/whitekid/goxp/log"
 
-	"revp/pb"
+	pb "revp/pb/v1alpha1"
 )
 
 func TestServerSideStream(t *testing.T) {
