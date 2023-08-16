@@ -116,7 +116,7 @@ func testPost(ctx context.Context, t *testing.T, remoteAddr string) {
 		Form("y", strconv.FormatInt(int64(y), 10)).
 		Do(ctx)
 	require.NoError(t, err)
-	require.True(t, resp.Success())
+	require.NoError(t, resp.Success())
 	response := map[string]int{}
 	defer resp.Body.Close()
 	require.NoError(t, resp.JSON(&response))
@@ -128,7 +128,7 @@ func testGet(ctx context.Context, t *testing.T, remoteAddr string) {
 		Query("message", t.Name()).
 		Do(ctx)
 	require.NoError(t, err)
-	require.True(t, resp.Success())
+	require.NoError(t, resp.Success())
 	require.Equal(t, t.Name(), resp.String())
 }
 

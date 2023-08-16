@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/flosch/pongo2/v5"
+	"github.com/flosch/pongo2/v6"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"github.com/whitekid/goxp/flags"

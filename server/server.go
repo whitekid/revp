@@ -12,7 +12,7 @@ import (
 	"net/textproto"
 	"time"
 
-	"github.com/flosch/pongo2/v5"
+	"github.com/flosch/pongo2/v6"
 	"github.com/pkg/errors"
 	"github.com/whitekid/goxp/log"
 	"github.com/whitekid/goxp/service"
